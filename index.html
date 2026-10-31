@@ -32,11 +32,233 @@ label{display:block;color:var(--muted);font-size:12px;margin:10px 0 6px}.formgri
 .notice{font-size:12px;color:var(--muted);line-height:1.5;margin-top:12px}.positive{color:var(--green)}.negative{color:var(--red)}
 footer{color:var(--muted);font-size:11px;text-align:center;padding:24px 10px}
 @media(min-width:650px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.modal{align-items:center}.sheet{border-radius:20px}}
+/* KEYSTOCKS PRO — design premium */
+:root {
+  --bg:#08090c;
+  --panel:#111318;
+  --panel2:#1a1d24;
+  --line:#292d36;
+  --txt:#f5f5f6;
+  --muted:#9b9da6;
+  --accent:#ef233c;
+  --green:#39d98a;
+  --red:#ff4057;
+  --amber:#ffc857;
+  --glow:rgba(239,35,60,.18);
+  color-scheme:dark;
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:radial-gradient(ellipse at 50% -20%,rgba(239,35,60,.13),transparent 42%),var(--bg);
+  letter-spacing:.01em;
+  -webkit-tap-highlight-color:transparent;
+}
+header{
+  padding:calc(15px + env(safe-area-inset-top)) 17px 13px;
+  background:rgba(8,9,12,.94);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(239,35,60,.28);
+}
+.brand{align-items:center}
+.brand-lockup{display:flex;align-items:center;gap:11px}
+.brand-mark{
+  width:42px;height:42px;display:grid;place-items:center;
+  background:linear-gradient(145deg,#ff4057,#b50920);
+  color:#fff;font-size:24px;font-weight:950;font-style:italic;
+  border-radius:13px;box-shadow:0 7px 24px var(--glow);
+  transform:skew(-5deg);
+}
+.brand h1{font-size:21px;letter-spacing:2.2px;font-weight:900}
+.brand-dot{color:var(--accent)}
+.brand small{color:#f04a5e;font-size:9px;letter-spacing:2px}
+.live-status{
+  font-size:9px;letter-spacing:1px;color:#b9bbc2;
+  border:1px solid var(--line);border-radius:99px;
+  padding:7px 9px;white-space:nowrap;
+}
+.live-status i{
+  display:inline-block;width:6px;height:6px;border-radius:50%;
+  background:#42dc91;margin-right:5px;box-shadow:0 0 8px #42dc91;
+}
+header p{font-size:10px;letter-spacing:1.6px;color:#777b85;margin:9px 0 0 53px}
+nav{
+  top:82px;padding:10px 12px 11px;
+  background:rgba(8,9,12,.94);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid #20232a;scrollbar-width:none;
+}
+nav::-webkit-scrollbar{display:none}
+nav button{
+  min-height:42px;border-radius:12px;padding:10px 14px;
+  font-size:12px;letter-spacing:.2px;
+  background:#111318;border-color:#292d36;color:#aeb0b8;
+}
+nav button.active{
+  background:linear-gradient(135deg,#ff4057,#d80e2a);
+  color:white;border-color:#f33249;box-shadow:0 5px 18px var(--glow);
+}
+main{padding:16px 14px 34px;max-width:920px}
+.stat,.card{
+  background:linear-gradient(145deg,#15181f,#101217);
+  border:1px solid #292d36;border-radius:17px;
+  box-shadow:0 8px 25px rgba(0,0,0,.16);
+}
+.stat{position:relative;overflow:hidden}
+.stat:after{
+  content:"";position:absolute;width:65px;height:65px;
+  right:-28px;top:-28px;border-radius:50%;background:var(--glow);
+}
+.stat span{font-size:11px;letter-spacing:.5px;text-transform:uppercase}
+.stat strong{font-size:clamp(19px,5vw,25px);font-weight:850;letter-spacing:-.5px}
+.stat em{font-size:10px}
+h2{font-size:17px;font-weight:800;letter-spacing:-.2px}
+.sectionhead{margin:22px 0 12px}
+.sectionhead h2{margin:0}
+button,.btn{touch-action:manipulation}
+.primary{
+  background:linear-gradient(135deg,#ff4057,#d70d29);
+  color:#fff;border:1px solid #ff4057;border-radius:12px;
+  min-height:44px;padding:11px 15px;
+  box-shadow:0 5px 16px var(--glow);font-weight:800;
+}
+.secondary{
+  background:#1a1d24;color:#f1f1f3;border:1px solid #343842;
+  border-radius:11px;min-height:42px;padding:10px 13px;
+}
+.danger{color:#ff5268;border-color:#70303b}
+input,select,textarea{
+  background:#0d0f14;border:1px solid #30343e;border-radius:12px;
+  padding:13px;color:#f7f7f8;min-height:46px;font-size:16px;
+}
+input:focus,select:focus,textarea:focus{
+  outline:none;border-color:#ef334b;
+  box-shadow:0 0 0 3px rgba(239,35,60,.13);
+}
+label{font-size:11px;letter-spacing:.35px;text-transform:uppercase;color:#aeb0b8}
+.formgrid{gap:0 12px}
+.item{gap:10px;padding:14px 0}
+.product-thumb{
+  width:70px;height:70px;border-radius:13px;
+  background:#1b1e25;border-color:#363a44;
+}
+.pill{border-color:#414550;color:#c1c3ca;background:#1b1e25}
+.empty{font-size:13px}
+.modal{
+  background:rgba(0,0,0,.78);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.sheet{
+  background:#111318;border:1px solid #383c46;
+  box-shadow:0 20px 70px #000;
+  border-radius:23px 23px 0 0;
+  padding:19px 16px calc(25px + env(safe-area-inset-bottom));
+  max-height:94dvh;
+}
+.sheethead{
+  position:sticky;top:-19px;background:#111318;
+  padding:8px 0 13px;z-index:2;
+  border-bottom:1px solid #292d36;margin-bottom:12px;
+}
+.sheethead h2{font-size:17px}
+.notice{color:#a4a7b0}
+
+/* Cardurile produselor */
+.product-open{
+  border:0;background:transparent;color:inherit;padding:0;
+  text-align:left;font:inherit;font-weight:800;cursor:pointer;
+}
+.product-open:active{color:#ff5268}
+.product-card{display:flex;align-items:center;gap:12px;min-width:0;flex:1}
+.product-card-copy{min-width:0;flex:1}
+.product-card-copy b{font-size:14px;line-height:1.35}
+.product-card-copy small{overflow-wrap:anywhere}
+.product-actions{
+  display:flex;gap:6px;justify-content:flex-end;
+  flex-wrap:wrap;margin-top:7px;
+}
+.product-actions button{min-height:36px;padding:7px 10px;font-size:11px}
+
+/* Fișa individuală a produsului */
+.overview-hero{
+  width:100%;height:min(48vh,330px);object-fit:contain;
+  background:radial-gradient(circle at center,#252832,#0c0e12);
+  border:1px solid #343842;border-radius:18px;
+}
+.overview-placeholder{
+  height:190px;display:grid;place-items:center;
+  background:#1a1d24;border:1px solid #343842;
+  border-radius:18px;font-size:54px;
+}
+.overview-title{font-size:23px;font-weight:900;letter-spacing:-.5px;margin:16px 0 5px}
+.overview-sub{color:#a6a8b0;font-size:12px}
+.overview-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;margin-top:17px;
+}
+.overview-metric{
+  background:#191c23;border:1px solid #30343d;
+  border-radius:14px;padding:13px;
+}
+.overview-metric span{
+  display:block;color:#a6a8b0;font-size:10px;
+  text-transform:uppercase;letter-spacing:.6px;
+}
+.overview-metric strong{
+  display:block;margin-top:7px;font-size:17px;overflow-wrap:anywhere;
+}
+.overview-section{margin-top:18px;padding-top:15px;border-top:1px solid #2b2f38}
+.overview-section h3{
+  font-size:12px;color:#aeb0b8;text-transform:uppercase;
+  letter-spacing:1px;margin:0 0 10px;
+}
+@media(max-width:520px){
+  header{padding-left:14px;padding-right:14px}
+  .brand h1{font-size:19px}
+  .brand-mark{width:39px;height:39px}
+  .live-status{font-size:8px;padding:6px 7px}
+  nav{top:78px;gap:6px}
+  nav button{padding:9px 11px;font-size:11px}
+  main{padding:12px 11px 28px}
+  .grid{gap:8px}
+  .stat,.card{padding:12px;border-radius:15px}
+  .stat strong{font-size:19px}
+  .sectionhead{align-items:center}
+  .sectionhead h2{font-size:16px}
+  .sectionhead .primary,.sectionhead .secondary{padding:9px 11px;font-size:11px}
+  .item{align-items:flex-start}
+  .qty{font-size:12px}
+  .qty strong{font-size:15px}
+  .product-thumb{width:62px;height:62px}
+  .formgrid{grid-template-columns:1fr 1fr;gap:0 8px}
+  .sheet{width:100%;max-height:94dvh}
+  .overview-title{font-size:21px}
+}
+@media(min-width:650px){
+  .modal{align-items:center}
+  .sheet{border-radius:22px;max-height:90vh}
+}
+@media(prefers-reduced-motion:no-preference){
+  button,.card,.stat{transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
+  button:active{transform:scale(.98)}
+}
 </style>
 </head>
 <body>
-<header><div class="brand"><div><h1>KEYSTOCKS</h1><small>INVENTAR AUTOKEYS</small></div><span>🔑</span></div><p>Gestiunea stocului tău • Offline • Valută: RON</p></header>
-<nav id="tabs">
+<header>
+  <div class="brand">
+    <div class="brand-lockup">
+      <span class="brand-mark">K</span>
+      <div>
+        <h1>KEYSTOCKS<span class="brand-dot">.</span></h1>
+        <small>PRO INVENTORY SYSTEM</small>
+      </div>
+    </div>
+    <span class="live-status"><i></i> OFFLINE READY</span>
+  </div>
+  <p>CONTROL STOC · AUTOKEYS · RON</p>
+</header>
+  <nav id="tabs">
 <button class="active" data-tab="acasa">Prezentare</button><button data-tab="produse">Produse</button><button data-tab="miscari">Mișcări</button><button data-tab="vanzari">Vânzări & bani</button><button data-tab="setari">Backup & setări</button>
 </nav>
 <main>
@@ -121,10 +343,166 @@ document.getElementById('low-list').innerHTML=low.length?low.map(x=>`<div class=
 let recent=[...db.moves].sort((a,b)=>b.at-a.at).slice(0,5);document.getElementById('recent-list').innerHTML=recent.length?recent.map(moveHTML).join(''):'<div class="empty">Nu există mișcări înregistrate.</div>';
 }
 function renderProducts(){
-let q=(document.getElementById('search')?.value||'').toLowerCase(),cat=document.getElementById('filter-cat')?.value||'',sort=document.getElementById('sort-products')?.value||'name';
-let arr=db.products.filter(x=>(!cat||x.cat===cat)&&[x.name,x.code,x.cat,x.brand,x.notes].join(' ').toLowerCase().includes(q));
-arr.sort((a,b)=>sort==='qty'?a.qty-b.qty:sort==='value'?(b.qty*b.cost-a.qty*a.cost):a.name.localeCompare(b.name,'ro'));
-document.getElementById('product-list').innerHTML=arr.length?arr.map(x=>`<div class="item">${x.image?`<img class="product-thumb" src="${x.image}" alt="">`:''}<div style="min-width:0;flex:1"><b>${esc(x.name)}</b><small>${esc(x.code||'Fără cod')} · ${esc(x.cat)}${x.brand?' · '+esc(x.brand):''}</small><span class="pill">Cost: ${money(x.cost)} / buc.</span></div><div class="qty"><strong class="${x.qty===0?'zero':x.qty<=x.min?'low':''}">${x.qty} buc.</strong><small>${money(x.qty*x.cost)}</small><div class="actions" style="justify-content:flex-end"><button class="secondary" onclick="openMovement('${x.id}')">±</button><button class="secondary" onclick="openProduct('${x.id}')">Editează</button></div></div></div>`).join(''):'<div class="empty">Nu există produse. Apasă „Adaugă” pentru primul articol.</div>';
+let q=(document.getElementById('search')?.value||'').toLocaleLowerCase('ro');
+let cat=document.getElementById('filter-cat')?.value||'';
+let sort=document.getElementById('sort-products')?.value||'name';
+
+let arr=db.products.filter(x=>
+(!cat||x.cat===cat)&&
+[x.name,x.code,x.cat,x.brand,x.notes]
+.join(' ').toLocaleLowerCase('ro').includes(q)
+);
+
+arr.sort((a,b)=>
+sort==='qty'?a.qty-b.qty:
+sort==='value'?(b.qty*b.cost-a.qty*a.cost):
+a.name.localeCompare(b.name,'ro')
+);
+
+document.getElementById('product-list').innerHTML=arr.length?
+arr.map(x=>`
+<div class="item">
+  <div class="product-card">
+    ${x.image
+      ? `<img class="product-thumb" src="${x.image}" alt="${esc(x.name)}">`
+      : '<div class="product-thumb" style="display:grid;place-items:center;font-size:25px">🔑</div>'
+    }
+    <div class="product-card-copy">
+      <button class="product-open" onclick="openProductOverview('${x.id}')">
+        ${esc(x.name)}
+      </button>
+      <small>
+        ${esc(x.code||'Fără cod')} · ${esc(x.cat)}
+        ${x.brand?' · '+esc(x.brand):''}
+      </small>
+      <span class="pill">Cost: ${money(x.cost)} / buc.</span>
+      <button class="secondary" style="display:block;margin-top:7px;min-height:34px;padding:6px 10px;font-size:11px"
+        onclick="openProductOverview('${x.id}')">
+        Vezi overview →
+      </button>
+    </div>
+  </div>
+
+  <div class="qty">
+    <strong class="${x.qty===0?'zero':x.qty<=x.min?'low':''}">
+      ${x.qty} buc.
+    </strong>
+    <small>${money(x.qty*x.cost)}</small>
+    <div class="product-actions">
+      <button class="secondary" onclick="openMovement('${x.id}')">±</button>
+      <button class="secondary" onclick="openProduct('${x.id}')">Editează</button>
+    </div>
+  </div>
+</div>
+`).join(''):
+'<div class="empty">Nu există produse. Apasă „Adaugă” pentru primul articol.</div>';
+}
+
+
+function openProductOverview(pid){
+ const p=db.products.find(x=>x.id===pid);
+ if(!p)return;
+
+ const moves=db.moves
+   .filter(x=>x.pid===pid)
+   .sort((a,b)=>b.at-a.at)
+   .slice(0,8);
+
+ const sales=db.sales.filter(x=>x.pid===pid);
+ const sold=sales.reduce((a,x)=>a+Number(x.qty||0),0);
+ const revenue=sales.reduce((a,x)=>a+Number(x.qty||0)*Number(x.price||0),0);
+
+ openModal('Fișa produsului',`
+ <div class="product-overview">
+
+   ${p.image
+     ? `<img class="overview-hero" src="${p.image}" alt="${esc(p.name)}">`
+     : '<div class="overview-placeholder">🔑</div>'
+   }
+
+   <div class="overview-title">${esc(p.name)}</div>
+
+   <div class="overview-sub">
+     ${esc(p.code||'Fără cod')} · ${esc(p.cat||'Fără categorie')}
+     ${p.brand?' · '+esc(p.brand):''}
+   </div>
+
+   <div class="overview-grid">
+
+     <div class="overview-metric">
+       <span>Stoc disponibil</span>
+       <strong class="${p.qty===0?'zero':p.qty<=p.min?'low':''}">
+         ${p.qty} buc.
+       </strong>
+     </div>
+
+     <div class="overview-metric">
+       <span>Cost achiziție / buc.</span>
+       <strong>${money(p.cost)}</strong>
+     </div>
+
+     <div class="overview-metric">
+       <span>Valoare stoc</span>
+       <strong>${money(p.qty*p.cost)}</strong>
+     </div>
+
+     <div class="overview-metric">
+       <span>Stoc minim</span>
+       <strong>${p.min||0} buc.</strong>
+     </div>
+
+     <div class="overview-metric">
+       <span>Bucăți vândute</span>
+       <strong>${sold}</strong>
+     </div>
+
+     <div class="overview-metric">
+       <span>Încasări totale</span>
+       <strong>${money(revenue)}</strong>
+     </div>
+
+   </div>
+
+   ${p.notes?`
+     <div class="overview-section">
+       <h3>Note și detalii</h3>
+       <div>${esc(p.notes)}</div>
+     </div>
+   `:''}
+
+   <div class="overview-section">
+     <h3>Ultimele mișcări</h3>
+
+     ${moves.length
+       ? moves.map(m=>`
+         <div class="item">
+           <div>
+             <b>${esc(m.type)}</b>
+             <small>${date(m.at)}${m.note?' · '+esc(m.note):''}</small>
+           </div>
+           <div class="qty">
+             <strong>
+               ${m.type==='Ieșire'?'-':m.type==='Intrare'?'+':''}${m.qty} buc.
+             </strong>
+           </div>
+         </div>
+       `).join('')
+       : '<div class="muted">Nu există mișcări înregistrate.</div>'
+     }
+   </div>
+
+   <div class="actions">
+     <button class="primary" onclick="closeModal();openProduct('${p.id}')">
+       Editează produsul
+     </button>
+
+     <button class="secondary" onclick="closeModal();openMovement('${p.id}')">
+       Înregistrează mișcare
+     </button>
+   </div>
+
+ </div>
+ `);
 }
 function moveHTML(m){let p=db.products.find(x=>x.id===m.pid);return `<div class="item"><div><b>${esc(p?.name||'Produs șters')} · ${esc(m.type)}</b><small>${date(m.at)}${m.note?' · '+esc(m.note):''}</small></div><div class="qty"><strong class="${m.type==='Ieșire'?'negative':m.type==='Intrare'?'positive':''}">${m.type==='Ieșire'?'-':m.type==='Intrare'?'+':''}${m.qty} buc.</strong></div></div>`}
 function renderMoves(){let type=document.getElementById('filter-move')?.value||'',period=document.getElementById('filter-period')?.value||'all',cut=period==='all'?0:Date.now()-Number(period)*86400000;let arr=[...db.moves].filter(m=>(!type||m.type===type)&&m.at>=cut).sort((a,b)=>b.at-a.at);document.getElementById('move-list').innerHTML=arr.length?arr.map(moveHTML).join(''):'<div class="empty">Nu există mișcări pentru filtrul selectat.</div>'}
