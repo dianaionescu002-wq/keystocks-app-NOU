@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101827">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="KEYSTOCKS">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>KEYSTOCKS — Gestiune stoc</title>
+<style>
+:root{--bg:#0b1220;--panel:#121d2e;--panel2:#18263a;--line:#29384d;--txt:#edf3fb;--muted:#9aabc0;--accent:#38bdf8;--green:#34d399;--red:#fb7185;--amber:#fbbf24}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+header{padding:20px 16px 14px;background:linear-gradient(135deg,#14243a,#0b1220);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:3}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand h1{font-size:22px;letter-spacing:2px;margin:0}.brand small{color:var(--accent);font-weight:700;letter-spacing:1.5px}
+header p{color:var(--muted);font-size:12px;margin:5px 0 0}
+nav{display:flex;gap:7px;overflow:auto;padding:12px 12px 2px;background:var(--bg);position:sticky;top:87px;z-index:2}
+nav button{white-space:nowrap;border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:11px;padding:10px 13px;font-weight:650}
+nav button.active{background:var(--accent);color:#061321;border-color:var(--accent)}
+main{padding:14px;max-width:850px;margin:auto}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.stat,.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:14px}.stat span{display:block;color:var(--muted);font-size:12px}.stat strong{display:block;font-size:22px;margin-top:7px}.stat em{font-size:11px;color:var(--muted);font-style:normal}
+h2{font-size:18px;margin:8px 0 13px}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0 10px}
+button,.btn{cursor:pointer}.primary{background:var(--accent);color:#071522;border:0;border-radius:11px;padding:11px 14px;font-weight:750}.secondary{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:10px;padding:10px 12px}.danger{color:var(--red);border-color:#743447}
+input,select,textarea{width:100%;background:#0c1625;color:var(--txt);border:1px solid var(--line);border-radius:10px;padding:12px;font:inherit;min-width:0}
+label{display:block;color:var(--muted);font-size:12px;margin:10px 0 6px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}.full{grid-column:1/-1}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.search{margin:8px 0 12px}
+.product-thumb{width:66px;height:66px;object-fit:cover;border-radius:10px;border:1px solid var(--line);background:var(--panel2);flex:none}.photo-preview{display:flex;align-items:center;gap:12px;margin-top:8px}.photo-preview img{width:100px;height:100px;object-fit:cover;border-radius:12px;border:1px solid var(--line)}.item{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}.item:last-child{border:0}.item b{display:block}.item small{color:var(--muted);display:block;margin-top:4px}.qty{text-align:right;white-space:nowrap}.qty strong{display:block;font-size:17px}.low{color:var(--amber)}.zero{color:var(--red)}
+.pill{display:inline-block;border:1px solid var(--line);border-radius:99px;padding:3px 8px;color:var(--muted);font-size:11px;margin-top:5px}
+.empty{color:var(--muted);text-align:center;padding:30px 12px}.muted{color:var(--muted)}.hidden{display:none!important}
+.modal{position:fixed;inset:0;background:#0009;z-index:10;display:flex;align-items:flex-end;justify-content:center}.sheet{background:var(--panel);border:1px solid var(--line);border-radius:20px 20px 0 0;padding:18px 16px calc(22px + env(safe-area-inset-bottom));width:100%;max-width:650px;max-height:92vh;overflow:auto}.sheethead{display:flex;justify-content:space-between;align-items:center}.sheethead h2{margin:0}
+.notice{font-size:12px;color:var(--muted);line-height:1.5;margin-top:12px}.positive{color:var(--green)}.negative{color:var(--red)}
+footer{color:var(--muted);font-size:11px;text-align:center;padding:24px 10px}
+@media(min-width:650px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.modal{align-items:center}.sheet{border-radius:20px}}
+</style>
+</head>
+<body>
+<header><div class="brand"><div><h1>KEYSTOCKS</h1><small>INVENTAR AUTOKEYS</small></div><span>🔑</span></div><p>Gestiunea stocului tău • Offline • Valută: RON</p></header>
+<nav id="tabs">
+<button class="active" data-tab="acasa">Prezentare</button><button data-tab="produse">Produse</button><button data-tab="miscari">Mișcări</button><button data-tab="vanzari">Vânzări & bani</button><button data-tab="setari">Backup & setări</button>
+</nav>
+<main>
+<section id="view-acasa">
+<div class="grid">
+<div class="stat"><span>Produse în catalog</span><strong id="s-products">0</strong><em>articole diferite</em></div>
+<div class="stat"><span>Bucăți în stoc</span><strong id="s-units">0</strong><em>cantitate totală</em></div>
+<div class="stat"><span>Valoare stoc</span><strong id="s-value">0 RON</strong><em>la costul de achiziție</em></div>
+<div class="stat"><span>Stoc redus</span><strong id="s-low">0</strong><em>sub pragul minim</em></div>
+</div>
+<div class="sectionhead"><h2>De reaprovizionat</h2><button class="secondary" onclick="showTab('produse')">Vezi produsele</button></div>
+<div class="card" id="low-list"></div>
+<div class="sectionhead"><h2>Mișcări recente</h2><button class="secondary" onclick="showTab('miscari')">Toate</button></div>
+<div class="card" id="recent-list"></div>
+</section>
+<section id="view-produse" class="hidden">
+<div class="sectionhead"><h2>Catalog produse</h2><button class="primary" onclick="openProduct()">＋ Adaugă</button></div>
+<input class="search" id="search" placeholder="Caută după denumire, cod, categorie…" oninput="renderProducts()">
+<div class="formgrid"><div><select id="filter-cat" onchange="renderProducts()"><option value="">Toate categoriile</option></select></div><div><select id="sort-products" onchange="renderProducts()"><option value="name">Denumire A–Z</option><option value="qty">Cantitate crescătoare</option><option value="value">Valoare stoc</option></select></div></div>
+<div class="card" id="product-list" style="margin-top:12px"></div>
+</section>
+<section id="view-miscari" class="hidden">
+<div class="sectionhead"><h2>Istoric mișcări</h2><button class="primary" onclick="openMovement()">＋ Mișcare</button></div>
+<div class="formgrid"><div><label>Tip mișcare</label><select id="filter-move" onchange="renderMoves()"><option value="">Toate</option><option>Intrare</option><option>Ieșire</option><option>Corecție</option></select></div><div><label>Perioadă</label><select id="filter-period" onchange="renderMoves()"><option value="all">Oricând</option><option value="30">Ultimele 30 zile</option><option value="7">Ultimele 7 zile</option></select></div></div>
+<div class="card" id="move-list" style="margin-top:12px"></div>
+</section>
+<section id="view-vanzari" class="hidden">
+<div class="sectionhead"><h2>Vânzări & raport lunar</h2><button class="primary" onclick="openSale()">＋ Vânzare nouă</button></div>
+<div class="card"><label>Luna raportului</label><input id="report-month" type="month" onchange="renderSales()"></div>
+<div class="grid" style="margin-top:10px">
+<div class="stat"><span>Vânzări / încasări</span><strong id="r-revenue">0 RON</strong><em id="r-count">0 tranzacții</em></div>
+<div class="stat"><span>Cost marfă vândută</span><strong id="r-cost">0 RON</strong><em>costul produselor vândute</em></div>
+<div class="stat"><span>Profit brut</span><strong id="r-profit">0 RON</strong><em>încasări minus cost marfă</em></div>
+<div class="stat"><span>Achiziții marfă</span><strong id="r-purchases">0 RON</strong><em id="r-purchase-count">0 intrări de marfă</em></div>
+<div class="stat"><span>Alte cheltuieli</span><strong id="r-expenses">0 RON</strong><em id="r-net">Rezultat după cheltuieli: 0 RON</em></div>
+</div>
+<div class="sectionhead"><h2>Comparație lunară</h2></div>
+<div class="card"><p class="muted" style="margin-top:0">Încasări din vânzări comparate cu banii investiți în achiziția de marfă. Barele sunt raportate la luna cu valoarea cea mai mare.</p><div id="monthly-chart"></div></div>
+<div class="sectionhead"><h2>Tabel pe luni</h2></div><div class="card" style="overflow-x:auto"><table id="monthly-table" style="width:100%;border-collapse:collapse;font-size:13px;min-width:560px"></table></div>
+<div class="sectionhead"><h2>Produse cumpărate în luna selectată</h2></div><div class="card" id="monthly-purchases"></div>
+<div class="sectionhead"><h2>Cheltuieli</h2><button class="secondary" onclick="openExpense()">＋ Adaugă cheltuială</button></div><div class="card" id="expense-list"></div>
+<div class="sectionhead"><h2>Istoric vânzări</h2></div><div class="card" id="sales-list"></div>
+<p class="notice">Achizițiile de marfă se înregistrează automat la fiecare intrare în stoc (cantitate × cost unitar). Profitul brut scade costul mărfii vândute; achizițiile sunt afișate separat pentru a nu dubla costurile. Alte cheltuieli se adaugă separat. Raport orientativ, nu contabil.</p>
+</section>
+<section id="view-setari" class="hidden">
+<h2>Backup și setări</h2>
+<div class="card">
+<h3>Salvarea datelor</h3><p class="muted">Datele se păstrează local pe acest dispozitiv și în acest browser. Nu ai nevoie de internet.</p>
+<div class="actions"><button class="primary" onclick="exportBackup()">Descarcă backup</button><button class="secondary" onclick="document.getElementById('import-file').click()">Importă backup</button><input id="import-file" type="file" accept="application/json,.json" class="hidden" onchange="importBackup(event)"></div>
+<p class="notice">Recomandare: descarcă periodic backup-ul și păstrează-l în Fișiere / iCloud Drive sau pe alt dispozitiv.</p>
+</div>
+<div class="card" style="margin-top:12px">
+<h3>Export produse CSV</h3><p class="muted">Deschide lista de stoc în Excel sau Numbers.</p><button class="secondary" onclick="exportCSV()">Exportă CSV</button>
+</div>
+<div class="card" style="margin-top:12px">
+<h3>Administrare</h3><p class="muted">Șterge toate produsele și mișcările. Operația nu poate fi anulată.</p><button class="secondary danger" onclick="clearAll()">Șterge toate datele</button>
+</div>
+<p class="notice">KEYSTOCKS este o aplicație locală, fără cont și fără sincronizare automată. Dacă ștergi datele browserului sau schimbi telefonul, restaurează un backup.</p>
+</section>
+</main>
+<footer>KEYSTOCKS • Gestiune locală pentru autolăcătușerie • RON</footer>
+
+<div id="modal" class="modal hidden" onclick="if(event.target===this)closeModal()"><div class="sheet"><div class="sheethead"><h2 id="modal-title">Adaugă produs</h2><button class="secondary" onclick="closeModal()">Închide ✕</button></div><div id="modal-body"></div></div></div>
+<script>
+const KEY='keystocks_data_v1';
+const cats=['Chei complete','Carcase','Lame','Transpondere','Telecomenzi','Baterii','Consumabile','Accesorii','Altele'];
+let db=load();
+function load(){try{let d=JSON.parse(localStorage.getItem(KEY))||{};return {products:d.products||[],moves:d.moves||[],sales:d.sales||[],expenses:d.expenses||[]}}catch(e){return {products:[],moves:[],sales:[],expenses:[]}}}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));renderAll()}
+function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function money(n){return (Number(n)||0).toLocaleString('ro-RO',{minimumFractionDigits:2,maximumFractionDigits:2})+' RON'}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function date(s){return new Date(s).toLocaleString('ro-RO',{dateStyle:'short',timeStyle:'short'})}
+function showTab(t){document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));['acasa','produse','miscari','vanzari','setari'].forEach(x=>document.getElementById('view-'+x).classList.toggle('hidden',x!==t));if(t==='produse')renderProducts();if(t==='miscari')renderMoves();if(t==='vanzari')renderSales()}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+function renderAll(){renderHome();renderProducts();renderMoves();renderSales();fillCats()}
+function fillCats(){let s=document.getElementById('filter-cat'),v=s.value;s.innerHTML='<option value="">Toate categoriile</option>'+cats.map(c=>`<option>${c}</option>`).join('');s.value=v}
+function renderHome(){
+let p=db.products,units=p.reduce((a,x)=>a+x.qty,0),value=p.reduce((a,x)=>a+x.qty*x.cost,0),low=p.filter(x=>x.qty<=x.min);
+document.getElementById('s-products').textContent=p.length;document.getElementById('s-units').textContent=units;document.getElementById('s-value').textContent=money(value);document.getElementById('s-low').textContent=low.length;
+document.getElementById('low-list').innerHTML=low.length?low.map(x=>`<div class="item"><div><b>${esc(x.name)}</b><small>${esc(x.code||x.cat)} · minim ${x.min}</small></div><div class="qty"><strong class="${x.qty===0?'zero':'low'}">${x.qty} buc.</strong></div></div>`).join(''):'<div class="empty">Stocul este în regulă. Nu ai produse sub pragul minim.</div>';
+let recent=[...db.moves].sort((a,b)=>b.at-a.at).slice(0,5);document.getElementById('recent-list').innerHTML=recent.length?recent.map(moveHTML).join(''):'<div class="empty">Nu există mișcări înregistrate.</div>';
+}
+function renderProducts(){
+let q=(document.getElementById('search')?.value||'').toLowerCase(),cat=document.getElementById('filter-cat')?.value||'',sort=document.getElementById('sort-products')?.value||'name';
+let arr=db.products.filter(x=>(!cat||x.cat===cat)&&[x.name,x.code,x.cat,x.brand,x.notes].join(' ').toLowerCase().includes(q));
+arr.sort((a,b)=>sort==='qty'?a.qty-b.qty:sort==='value'?(b.qty*b.cost-a.qty*a.cost):a.name.localeCompare(b.name,'ro'));
+document.getElementById('product-list').innerHTML=arr.length?arr.map(x=>`<div class="item">${x.image?`<img class="product-thumb" src="${x.image}" alt="">`:''}<div style="min-width:0;flex:1"><b>${esc(x.name)}</b><small>${esc(x.code||'Fără cod')} · ${esc(x.cat)}${x.brand?' · '+esc(x.brand):''}</small><span class="pill">Cost: ${money(x.cost)} / buc.</span></div><div class="qty"><strong class="${x.qty===0?'zero':x.qty<=x.min?'low':''}">${x.qty} buc.</strong><small>${money(x.qty*x.cost)}</small><div class="actions" style="justify-content:flex-end"><button class="secondary" onclick="openMovement('${x.id}')">±</button><button class="secondary" onclick="openProduct('${x.id}')">Editează</button></div></div></div>`).join(''):'<div class="empty">Nu există produse. Apasă „Adaugă” pentru primul articol.</div>';
+}
+function moveHTML(m){let p=db.products.find(x=>x.id===m.pid);return `<div class="item"><div><b>${esc(p?.name||'Produs șters')} · ${esc(m.type)}</b><small>${date(m.at)}${m.note?' · '+esc(m.note):''}</small></div><div class="qty"><strong class="${m.type==='Ieșire'?'negative':m.type==='Intrare'?'positive':''}">${m.type==='Ieșire'?'-':m.type==='Intrare'?'+':''}${m.qty} buc.</strong></div></div>`}
+function renderMoves(){let type=document.getElementById('filter-move')?.value||'',period=document.getElementById('filter-period')?.value||'all',cut=period==='all'?0:Date.now()-Number(period)*86400000;let arr=[...db.moves].filter(m=>(!type||m.type===type)&&m.at>=cut).sort((a,b)=>b.at-a.at);document.getElementById('move-list').innerHTML=arr.length?arr.map(moveHTML).join(''):'<div class="empty">Nu există mișcări pentru filtrul selectat.</div>'}
+function openModal(title,body){document.getElementById('modal-title').textContent=title;document.getElementById('modal-body').innerHTML=body;document.getElementById('modal').classList.remove('hidden')}
+function closeModal(){document.getElementById('modal').classList.add('hidden')}
+function compressImage(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onerror=reject;reader.onload=()=>{const img=new Image();img.onerror=reject;img.onload=()=>{const max=700,scale=Math.min(1,max/Math.max(img.width,img.height)),canvas=document.createElement('canvas');canvas.width=Math.round(img.width*scale);canvas.height=Math.round(img.height*scale);const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,canvas.width,canvas.height);resolve(canvas.toDataURL('image/jpeg',0.72))};img.src=reader.result};reader.readAsDataURL(file)})}
+function openProduct(pid=''){
+let x=db.products.find(p=>p.id===pid)||{name:'',code:'',cat:cats[0],brand:'',qty:0,min:2,cost:0,notes:''},edit=!!pid;
+openModal(edit?'Editează produs':'Produs nou',`<form id="product-form" class="formgrid">
+<div class="full"><label>Denumire produs *</label><input name="name" required value="${esc(x.name)}" placeholder="Ex. Carcasă VW Golf 7"></div>
+<div><label>Cod / SKU</label><input name="code" value="${esc(x.code)}" placeholder="Ex. VW-G7-3B"></div>
+<div><label>Categorie</label><select name="cat">${cats.map(c=>`<option ${x.cat===c?'selected':''}>${c}</option>`).join('')}</select></div>
+<div><label>Marcă / model</label><input name="brand" value="${esc(x.brand)}" placeholder="Ex. VW, BMW…"></div>
+<div><label>Stoc actual (buc.)</label><input name="qty" type="number" min="0" step="1" required value="${x.qty}" ${edit?'readonly':''}></div>
+<div><label>Stoc minim (alertă)</label><input name="min" type="number" min="0" step="1" value="${x.min}"></div>
+<div><label>Cost achiziție / buc. (RON)</label><input name="cost" type="number" min="0" step="0.01" value="${x.cost}"></div>
+<div class="full"><label>Fotografie produs</label><input id="product-image" type="file" accept="image/*" capture="environment"><div class="photo-preview" id="photo-preview">${x.image?`<img src="${x.image}" alt="Fotografie produs"><span class="muted">Fotografia actuală</span>`:'<span class="muted">Nu ai adăugat o fotografie.</span>'}</div>${x.image?'<label><input id="remove-image" type="checkbox" style="width:auto;margin-right:6px"> Elimină fotografia existentă</label>':''}<p class="notice">Poți fotografia produsul sau alege o imagine din dispozitiv. Imaginea este micșorată automat și salvată local.</p></div>
+<div class="full"><label>Note</label><textarea name="notes" rows="2">${esc(x.notes)}</textarea></div>
+<div class="full actions"><button class="primary" type="submit">Salvează produsul</button>${edit ? `<button class="secondary danger" type="button" onclick="deleteProduct('${pid}')">Șterge produsul</button>` : ''}</div></form><p class="notice">${edit?'Pentru modificarea cantității folosește butonul ± și înregistrează o mișcare.':'Stocul inițial va fi înregistrat automat ca intrare.'}</p>`);
+const imageInput=document.getElementById('product-image');
+imageInput.onchange=()=>{const file=imageInput.files[0];if(!file)return;const preview=document.getElementById('photo-preview');const url=URL.createObjectURL(file);preview.innerHTML=`<img src="${url}" alt="Previzualizare"><span class="muted">Fotografie selectată</span>`};
+document.getElementById('product-form').onsubmit=async e=>{e.preventDefault();let f=new FormData(e.target),d=Object.fromEntries(f);d.qty=Number(d.qty);d.min=Number(d.min)||0;d.cost=Number(d.cost)||0;let image=x.image||'';if(document.getElementById('remove-image')?.checked)image='';const file=imageInput.files[0];if(file){try{image=await compressImage(file)}catch(err){alert('Nu am putut prelucra fotografia. Încearcă altă imagine.');return}}if(edit){Object.assign(x,{name:d.name,code:d.code,cat:d.cat,brand:d.brand,min:d.min,cost:d.cost,notes:d.notes,image})}else{let p={...d,id:id(),image};db.products.push(p);if(p.qty){let at=Date.now();db.moves.push({id:id(),pid:p.id,type:'Intrare',qty:p.qty,at,note:'Stoc inițial'});db.expenses.push({id:id(),type:'purchase',title:'Achiziție marfă – '+p.name,amount:p.qty*p.cost,qty:p.qty,unitCost:p.cost,pid:p.id,at,note:'Stoc inițial'});}}try{save();closeModal()}catch(err){alert('Nu mai este suficient spațiu pentru salvarea datelor. Încearcă o fotografie mai mică.');}};
+}
+function deleteProduct(pid){if(!confirm('Ștergi produsul? Istoricul mișcărilor rămâne.'))return;db.products=db.products.filter(p=>p.id!==pid);save();closeModal()}
+function openMovement(pid=''){
+let opts=db.products.map(p=>`<option value="${p.id}" ${p.id===pid?'selected':''}>${esc(p.name)} (${p.qty} buc.)</option>`).join('');
+if(!opts){alert('Adaugă mai întâi un produs în catalog.');return}
+openModal('Înregistrează mișcare',`<form id="move-form">
+<label>Produs</label><select name="pid" required>${opts}</select>
+<div class="formgrid"><div><label>Tip mișcare</label><select name="type"><option>Intrare</option><option>Ieșire</option><option>Corecție</option></select></div><div><label>Cantitate (buc.)</label><input name="qty" type="number" min="1" step="1" required></div></div>
+<div id="purchase-cost-wrap"><label>Cost achiziție / bucată (RON)</label><input name="unitCost" type="number" min="0" step="0.01" value="${Number(db.products.find(x=>x.id===pid)?.cost)||0}"></div><label>Detalii / motiv</label><input name="note" placeholder="Ex. Achiziție furnizor, lucrare client…">
+<div class="actions"><button class="primary">Salvează mișcarea</button></div></form><p class="notice">Intrare adaugă stoc, Ieșire scade stoc, iar Corecție setează cantitatea exactă.</p>`);
+const moveType=document.querySelector('#move-form [name=type]'),costWrap=document.getElementById('purchase-cost-wrap');moveType.onchange=()=>costWrap.style.display=moveType.value==='Intrare'?'block':'none';moveType.onchange();document.getElementById('move-form').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target),d=Object.fromEntries(f),p=db.products.find(x=>x.id===d.pid),n=Number(d.qty),at=Date.now();if(!p||n<1)return;if(d.type==='Ieșire'&&n>p.qty){alert('Stoc insuficient! Disponibil: '+p.qty+' buc.');return}if(d.type==='Intrare'){let unitCost=Number(d.unitCost);if(!Number.isFinite(unitCost)||unitCost<0){alert('Introdu un cost de achiziție valid.');return}let oldQty=p.qty,oldCost=Number(p.cost)||0;p.cost=(oldQty*oldCost+n*unitCost)/(oldQty+n);p.qty+=n;db.expenses.push({id:id(),type:'purchase',title:'Achiziție marfă – '+p.name,amount:n*unitCost,qty:n,unitCost,pid:p.id,at,note:d.note||''});}else if(d.type==='Ieșire')p.qty-=n;else p.qty=n;db.moves.push({id:id(),pid:p.id,type:d.type,qty:n,at,note:d.note});save();closeModal()};
+}
+function currentMonth(){let el=document.getElementById('report-month');if(!el.value)el.value=new Date().toISOString().slice(0,7);return el.value}
+function renderSales(){if(!document.getElementById('report-month'))return;let month=currentMonth(),sales=db.sales.filter(x=>new Date(x.at).toISOString().slice(0,7)===month),allMonthExpenses=db.expenses.filter(x=>new Date(x.at).toISOString().slice(0,7)===month),purchases=allMonthExpenses.filter(x=>x.type==='purchase'),expenses=allMonthExpenses.filter(x=>x.type!=='purchase');let revenue=sales.reduce((a,x)=>a+x.qty*x.price,0),cost=sales.reduce((a,x)=>a+x.qty*x.cost,0),exp=expenses.reduce((a,x)=>a+x.amount,0),purchaseTotal=purchases.reduce((a,x)=>a+x.amount,0),profit=revenue-cost;document.getElementById('r-revenue').textContent=money(revenue);document.getElementById('r-count').textContent=sales.length+' tranzacții';document.getElementById('r-cost').textContent=money(cost);document.getElementById('r-profit').textContent=money(profit);document.getElementById('r-purchases').textContent=money(purchaseTotal);document.getElementById('r-purchase-count').textContent=purchases.length+' intrări de marfă';document.getElementById('r-expenses').textContent=money(exp);document.getElementById('r-net').textContent='Rezultat după alte cheltuieli: '+money(profit-exp);document.getElementById('sales-list').innerHTML=sales.length?[...sales].sort((a,b)=>b.at-a.at).map(x=>`<div class="item"><div><b>${esc(x.name)}</b><small>${date(x.at)} · ${x.qty} buc. × ${money(x.price)}${x.note?' · '+esc(x.note):''}</small></div><div class="qty"><strong>${money(x.qty*x.price)}</strong><small>Profit: ${money(x.qty*(x.price-x.cost))}</small><div class="actions" style="justify-content:flex-end"><button class="secondary" onclick="editSale('${x.id}')">Editează</button><button class="secondary danger" onclick="deleteSale('${x.id}')">Șterge</button></div></div></div>`).join(''):'<div class="empty">Nu există vânzări în această lună.</div>';document.getElementById('expense-list').innerHTML=(purchases.length+expenses.length)?[...purchases,...expenses].sort((a,b)=>b.at-a.at).map(x=>`<div class="item"><div><b>${esc(x.title)}</b><small>${date(x.at)}${x.note?' · '+esc(x.note):''}</small></div><div class="qty"><strong class="negative">-${money(x.amount)}</strong><small>${x.type==='purchase'?'Achiziție marfă':''}</small><div class="actions" style="justify-content:flex-end"><button class="secondary" onclick="editExpense('${x.id}')">Editează</button><button class="secondary danger" onclick="deleteExpense('${x.id}')">Șterge</button></div></div></div>`).join(''):'<div class="empty">Nu ai cheltuieli înregistrate în această lună.</div>';renderMonthlyOverview();}
+function renderMonthlyOverview(){let keys=new Set();[...db.sales,...db.expenses].forEach(x=>keys.add(new Date(x.at).toISOString().slice(0,7)));let months=[...keys].sort();const label=k=>{let [y,m]=k.split('-');return new Date(Number(y),Number(m)-1,1).toLocaleDateString('ro-RO',{month:'short',year:'numeric'})};let rows=months.map(k=>{let ss=db.sales.filter(x=>new Date(x.at).toISOString().slice(0,7)===k),ee=db.expenses.filter(x=>new Date(x.at).toISOString().slice(0,7)===k),revenue=ss.reduce((a,x)=>a+x.qty*x.price,0),purchases=ee.filter(x=>x.type==='purchase').reduce((a,x)=>a+x.amount,0),other=ee.filter(x=>x.type!=='purchase').reduce((a,x)=>a+x.amount,0),gross=ss.reduce((a,x)=>a+x.qty*(x.price-x.cost),0);return {k,revenue,purchases,other,gross,net:gross-other}});let max=Math.max(1,...rows.flatMap(x=>[x.revenue,x.purchases]));document.getElementById('monthly-chart').innerHTML=rows.length?[...rows].reverse().map(x=>`<div style="margin:13px 0"><b>${label(x.k)}</b><div style="display:grid;grid-template-columns:92px 1fr;gap:8px;align-items:center;margin-top:5px;font-size:12px"><span>Încasări</span><div style="background:#0c1625;border-radius:6px;height:13px;overflow:hidden"><div style="height:100%;width:${x.revenue/max*100}%;background:#38bdf8"></div></div><span>Achiziții</span><div style="background:#0c1625;border-radius:6px;height:13px;overflow:hidden"><div style="height:100%;width:${x.purchases/max*100}%;background:#fbbf24"></div></div></div><small class="muted">${money(x.revenue)} încasări · ${money(x.purchases)} investiți în marfă</small></div>`).join(''):'<div class="empty">Datele lunare vor apărea după primele vânzări sau achiziții.</div>';document.getElementById('monthly-table').innerHTML='<thead><tr style="text-align:left;color:var(--muted);border-bottom:1px solid var(--line)"><th style="padding:9px">Luna</th><th>Încasări</th><th>Achiziții stoc</th><th>Alte chelt.</th><th>Profit brut</th><th>Rezultat</th></tr></thead><tbody>'+[...rows].reverse().map(x=>`<tr style="border-bottom:1px solid var(--line)"><td style="padding:9px">${label(x.k)}</td><td>${money(x.revenue)}</td><td>${money(x.purchases)}</td><td>${money(x.other)}</td><td>${money(x.gross)}</td><td>${money(x.net)}</td></tr>`).join('')+'</tbody>';let selected=document.getElementById('report-month').value,pp=db.expenses.filter(x=>x.type==='purchase'&&new Date(x.at).toISOString().slice(0,7)===selected);document.getElementById('monthly-purchases').innerHTML=pp.length?[...pp].sort((a,b)=>b.at-a.at).map(x=>`<div class="item"><div><b>${esc(x.title)}</b><small>${date(x.at)} · ${x.qty||0} buc. × ${money(x.unitCost||0)}</small></div><div class="qty"><strong class="negative">-${money(x.amount)}</strong></div></div>`).join(''):'<div class="empty">Nu există achiziții de marfă în luna selectată.</div>'}
+function openSale(){let opts=db.products.filter(p=>p.qty>0).map(p=>`<option value="${p.id}">${esc(p.name)} — ${p.qty} buc. (cost ${money(p.cost)})</option>`).join('');if(!opts){alert('Nu există produse disponibile în stoc.');return}openModal('Înregistrează vânzare',`<form id="sale-form"><label>Produs</label><select name="pid" id="sale-pid">${opts}</select><div class="formgrid"><div><label>Cantitate</label><input name="qty" type="number" min="1" step="1" value="1" required></div><div><label>Preț vânzare / buc. (RON)</label><input name="price" type="number" min="0" step="0.01" required></div></div><label>Client / detalii (opțional)</label><input name="note" placeholder="Ex. client, lucrare..."><p class="notice" id="sale-hint">Stocul se scade automat după salvare.</p><div class="actions"><button class="primary">Salvează vânzarea</button></div></form>`);let sel=document.getElementById('sale-pid'),qty=document.querySelector('#sale-form [name=qty]'),price=document.querySelector('#sale-form [name=price]'),hint=document.getElementById('sale-hint');function update(){let p=db.products.find(x=>x.id===sel.value);hint.textContent=p?`Disponibil: ${p.qty} buc. · Cost: ${money(p.cost)} / buc. · Profit estimat: ${money((Number(price.value||0)-p.cost)*Number(qty.value||0))}`:''}sel.onchange=update;qty.oninput=update;price.oninput=update;document.getElementById('sale-form').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target),d=Object.fromEntries(f),p=db.products.find(x=>x.id===d.pid),n=Number(d.qty),v=Number(d.price);if(!p||n<1||!Number.isFinite(v)||v<0)return;if(n>p.qty){alert('Stoc insuficient! Disponibil: '+p.qty+' buc.');return}p.qty-=n;let saleId=id(),moveId=id(),at=Date.now();db.sales.push({id:saleId,moveId,pid:p.id,name:p.name,qty:n,price:v,cost:Number(p.cost)||0,at,note:d.note||''});db.moves.push({id:moveId,pid:p.id,type:'Ieșire',qty:n,at,note:'Vânzare'+(d.note?' · '+d.note:'')});save();closeModal();showTab('vanzari')}}
+function openExpense(){openModal('Adaugă cheltuială',`<form id="expense-form"><label>Denumire cheltuială</label><input name="title" required placeholder="Ex. transport, chirie, consumabile"><label>Sumă (RON)</label><input name="amount" type="number" min="0.01" step="0.01" required><label>Detalii (opțional)</label><input name="note" placeholder="Detalii suplimentare"><div class="actions"><button class="primary">Salvează cheltuiala</button></div></form>`);document.getElementById('expense-form').onsubmit=e=>{e.preventDefault();let d=Object.fromEntries(new FormData(e.target));let amount=Number(d.amount);if(!d.title||amount<=0)return;db.expenses.push({id:id(),title:d.title,amount,note:d.note||'',at:Date.now()});save();closeModal();showTab('vanzari')}}
+
+function editSale(sid){let x=db.sales.find(v=>v.id===sid);if(!x)return;openModal('Editează vânzarea',`<form id="edit-sale-form"><label>Produs</label><input value="${esc(x.name)}" disabled><div class="formgrid"><div><label>Cantitate</label><input name="qty" type="number" min="1" step="1" required value="${x.qty}"></div><div><label>Preț vânzare / buc. (RON)</label><input name="price" type="number" min="0" step="0.01" required value="${x.price}"></div></div><label>Client / detalii</label><input name="note" value="${esc(x.note||'')}"><div class="actions"><button class="primary">Salvează modificările</button></div></form><p class="notice">Stocul va fi recalculat automat în funcție de noua cantitate.</p>`);document.getElementById('edit-sale-form').onsubmit=e=>{e.preventDefault();let d=Object.fromEntries(new FormData(e.target)),n=Number(d.qty),v=Number(d.price),p=db.products.find(z=>z.id===x.pid);if(!p||n<1||!Number.isFinite(v)||v<0)return;let available=p.qty+Number(x.qty);if(n>available){alert('Stoc insuficient. Disponibil după anularea vânzării vechi: '+available+' buc.');return}p.qty=available-n;x.qty=n;x.price=v;x.note=d.note||'';let m=db.moves.find(z=>z.id===x.moveId);if(m){m.qty=n;m.note='Vânzare'+(x.note?' · '+x.note:'')}else{let mid=id();x.moveId=mid;db.moves.push({id:mid,pid:x.pid,type:'Ieșire',qty:n,at:x.at,note:'Vânzare'+(x.note?' · '+x.note:'')})}save();closeModal();showTab('vanzari')}}
+function deleteSale(sid){let x=db.sales.find(v=>v.id===sid);if(!x||!confirm('Ștergi această vânzare? Cantitatea vândută va reveni automat în stoc.'))return;let p=db.products.find(z=>z.id===x.pid);if(p)p.qty+=Number(x.qty)||0;db.sales=db.sales.filter(z=>z.id!==sid);if(x.moveId)db.moves=db.moves.filter(z=>z.id!==x.moveId);save();showTab('vanzari')}
+function editExpense(eid){let x=db.expenses.find(v=>v.id===eid);if(!x)return;openModal('Editează cheltuiala',`<form id="edit-expense-form"><label>Denumire</label><input name="title" required value="${esc(x.title)}"><label>Sumă (RON)</label><input name="amount" type="number" min="0.01" step="0.01" required value="${x.amount}"><label>Detalii</label><input name="note" value="${esc(x.note||'')}"><div class="actions"><button class="primary">Salvează modificările</button></div></form>${x.type==='purchase'?'<p class="notice">Modificarea afectează raportul financiar. Cantitatea din stoc și costul mediu al produsului nu se modifică.</p>':''}`);document.getElementById('edit-expense-form').onsubmit=e=>{e.preventDefault();let d=Object.fromEntries(new FormData(e.target)),a=Number(d.amount);if(!d.title||!Number.isFinite(a)||a<=0)return;x.title=d.title;x.amount=a;x.note=d.note||'';save();closeModal();showTab('vanzari')}}
+function deleteExpense(eid){let x=db.expenses.find(v=>v.id===eid);if(!x||!confirm('Ștergi această cheltuială din evidența financiară?'))return;db.expenses=db.expenses.filter(z=>z.id!==eid);save();showTab('vanzari');if(x.type==='purchase')alert('Cheltuiala a fost ștearsă din raport. Stocul produsului nu a fost modificat.');}
+
+function exportBackup(){let blob=new Blob([JSON.stringify({...db,exportedAt:new Date().toISOString(),app:'KEYSTOCKS'},null,2)],{type:'application/json'});download(blob,'KEYSTOCKS-backup-'+new Date().toISOString().slice(0,10)+'.json')}
+function importBackup(e){let file=e.target.files[0];if(!file)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!Array.isArray(d.products)||!Array.isArray(d.moves))throw Error();if(!confirm('Importul va înlocui datele existente. Continui?'))return;db={products:d.products,moves:d.moves,sales:d.sales||[],expenses:d.expenses||[]};save();alert('Backup importat cu succes.')}catch(err){alert('Fișier backup invalid.')}e.target.value=''};r.readAsText(file)}
+function exportCSV(){let rows=[['Denumire','Cod','Categorie','Marca/model','Cantitate','Stoc minim','Cost RON','Valoare RON','Note'],...db.products.map(p=>[p.name,p.code,p.cat,p.brand,p.qty,p.min,p.cost,(p.qty*p.cost).toFixed(2),p.notes])];let csv='\\ufeff'+rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\\r\\n');download(new Blob([csv],{type:'text/csv;charset=utf-8'}),'KEYSTOCKS-stoc.csv')}
+function download(blob,name){let a=document.createElement('a'),u=URL.createObjectURL(blob);a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+function clearAll(){if(!confirm('Sigur ștergi definitiv toate produsele și mișcările?'))return;if(!confirm('Ultima confirmare: datele se pierd dacă nu ai backup.'))return;db={products:[],moves:[]};save()}
+renderAll();
+</script>
+<script>if ("serviceWorker" in navigator) { window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js").catch(() => {})); }</script>
+</body></html>
