@@ -1,0 +1,8 @@
+KEYSTOCKS – site PWA
+
+1. Creează un repository NOU public pe GitHub, de exemplu keystocks-nou.
+2. Încarcă toate cele 6 fișiere din acest folder direct în rădăcina repository-ului (nu încărca folderul și nu ZIP-ul).
+3. Settings → Pages → Deploy from a branch → main → /(root) → Save.
+4. Așteaptă publicarea verde, apoi deschide adresa afișată de GitHub Pages.
+
+Important: fișierul index.html trebuie să fie direct în rădăcina repository-ului.
